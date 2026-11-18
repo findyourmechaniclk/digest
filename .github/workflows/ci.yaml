@@ -1,3 +1,8 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 1 optimization:
+# - [MEDIUM] Add concurrency group to "ci.yaml"
+# Estimated savings: ~2 min/run
+#
 # Run CI for R using https://eddelbuettel.github.io/r-ci/
 
 name: ci
@@ -7,6 +12,10 @@ on:
   push:
   pull_request:
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 env:
   _R_CHECK_FORCE_SUGGESTS_: "false"
 
