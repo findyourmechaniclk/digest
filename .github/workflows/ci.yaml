@@ -9,6 +9,7 @@ on:
 
 env:
   _R_CHECK_FORCE_SUGGESTS_: "false"
+  R_LIBS_USER: ${{ github.workspace }}/.R-library
 
 jobs:
   ci:
@@ -24,6 +25,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
+
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-R-${{ hashFiles('DESCRIPTION', 'renv.lock') }}
 
       - name: Setup
         uses: eddelbuettel/github-actions/r-ci@master
